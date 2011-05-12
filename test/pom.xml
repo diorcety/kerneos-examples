@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>kerneos-examples</artifactId>
+    <groupId>org.ow2.jasmine.kerneos</groupId>
+    <version>2.0.0-M1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>kerneos-examples-test</artifactId>
+  <name>Kerneos :: Modules :: Examples :: Test</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.ow2.jasmine.kerneos</groupId>
+      <artifactId>kerneos-core-server</artifactId>
+      <version>2.0.0-M1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${project.build.directory}/resources</directory>
+        <targetPath>.</targetPath>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <targetPath>.</targetPath>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/kerneos</directory>
+        <targetPath>./KERNEOS</targetPath>
+      </resource>
+    </resources>
+    <plugins>
+
+
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>kerneos-core-client</artifactId>
+                  <version>${project.version}</version>
+                  <type>swf</type>
+                  <overWrite>true</overWrite>
+                  <destFileName>kerneos.swf</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/resources</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.3.4</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Include-Resource>
+              KERNEOS=${project.build.directory}/resources
+            </Include-Resource>
+            <Embed-Transitive>true</Embed-Transitive>
+            <Embed-Dependency>
+              util-log;inline=true,
+              util-i18n;inline=true,
+              ow2-bundles-externals-jaxb2;inline=true,
+            </Embed-Dependency>
+            <Export-Package>
+              org.ow2.jasmine.kerneos.service,
+              org.ow2.util.log
+            </Export-Package>
+            <Private-Package>
+              org.ow2.jasmine.kerneos.service.impl,
+              org.ow2.jasmine.kerneos.config.generated
+            </Private-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>kerneos-core-client</artifactId>
+                  <version>${project.version}</version>
+                  <type>swf</type>
+                  <overWrite>true</overWrite>
+                  <destFileName>kerneos.swf</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/resources</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>kerneos-debug</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

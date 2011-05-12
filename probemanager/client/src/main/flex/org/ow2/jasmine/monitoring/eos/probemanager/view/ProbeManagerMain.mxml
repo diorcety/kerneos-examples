@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+- JASMINe
+- Copyright (C) 2010-2011 Bull S.A.S.
+- Contact: jasmine@ow2.org
+-
+- This library is free software; you can redistribute it and/or
+- modify it under the terms of the GNU Lesser General Public
+- License as published by the Free Software Foundation; either
+- version 2.1 of the License, or any later version.
+-
+- This library is distributed in the hope that it will be useful,
+- but WITHOUT ANY WARRANTY; without even the implied warranty of
+- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- Lesser General Public License for more details.
+-
+- You should have received a copy of the GNU Lesser General Public
+- License along with this library; if not, write to the Free Software
+- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+- USA
+-
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+- $Id$
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+     xmlns:pe="org.ow2.jasmine.monitoring.eos.probemanager.view.*"
+     xmlns:eosControls="org.ow2.jasmine.monitoring.eos.common.controls.*"
+     width="100%"
+     height="100%"
+     autoLayout="true"
+     styleName="probes"
+     creationComplete="util.initComponent()">
+
+  <mx:Script>
+    <![CDATA[
+      import org.ow2.jasmine.monitoring.eos.probemanager.model.ProbeManagerModelLocator;
+      import org.ow2.jasmine.monitoring.eos.probemanager.vo.*;
+
+      [Bindable]
+      private var model:ProbeManagerModelLocator = ProbeManagerModelLocator.getInstance();
+      [Bindable]
+      private var util:ProbeManagerUtil = new ProbeManagerUtil(this);
+    ]]>
+  </mx:Script>
+
+  <mx:Binding destination="util.selectedProbeIdent"
+        source="model.selectedProbeIdent"/>
+
+  <mx:Binding destination="util.mbeanlist"
+        source="model.mbeanlist"/>
+
+  <mx:XML id="newMenuData">
+    <root>
+      <menuitem label="{resourceManager.getString('probemanagerResources', 'newProbeButton.label')}" eventName="newProbe" index="0"/>
+      <menuitem label="{resourceManager.getString('probemanagerResources', 'newTargetButton.label')}" eventName="newTarget" index="1"/>
+      <menuitem label="{resourceManager.getString('probemanagerResources', 'newOutputButton.label')}" eventName="newOutput" index="2"/>
+    </root>
+  </mx:XML>
+
+  <!-- The header -->
+  <mx:VBox id="headerContainer"
+       paddingLeft="5"
+       paddingRight="5"
+       width="100%">
+
+    <!-- The top toolbar -->
+    <mx:HBox id="toolBar"
+         width="100%"
+         height="29"
+         verticalAlign="middle">
+
+      <mx:HBox id="selectionActionsToolBar"
+           height="100%"
+           width="100%"
+           paddingTop="2"
+           paddingBottom="2">
+
+        <mx:LinkButton id="importButton"
+                 height="25"
+                 label="Load"
+                 labelPlacement="right"
+                 icon="@Embed(source='/../assets/upload18.png')"
+                 textAlign="center"
+                 click="util.uploadconf();"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'importButton.toolTip')}"/>
+
+        <mx:LinkButton id="saveButton"
+                 height="25"
+                 label="Save"
+                 labelPlacement="right"
+                 icon="@Embed(source='/../assets/save18.png')"
+                 textAlign="center"
+                 click="util.saveconfig();"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'saveButton.toolTip')}"/>
+
+        <mx:VRule/>
+
+        <mx:LinkButton id="newButton"
+                 height="25"
+                 label="New"
+                 labelPlacement="right"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'newButton.toolTip')}"
+                 icon="@Embed(source='/../assets/copy18.png')"
+                 textAlign="center"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 click="util.showNewMenu();"/>
+
+        <mx:LinkButton id="copyButton"
+                 height="25"
+                 label="Copy"
+                 labelPlacement="right"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'copyButton.toolTip')}"
+                 icon="@Embed(source='/../assets/copy18.png')"
+                 textAlign="center"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 click="util.copyButton();"/>
+
+        <mx:LinkButton id="removeButton"
+                 height="25"
+                 label="Delete"
+                 labelPlacement="right"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'removeButton.toolTip')}"
+                 icon="@Embed(source='/../assets/remove18.png')"
+                 textAlign="center"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 click="util.removeButton();"/>
+
+        <mx:VRule/>
+
+        <mx:LinkButton id="startButton"
+                 height="25"
+                 label="Start"
+                 labelPlacement="right"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'startButton.toolTip')}"
+                 icon="@Embed(source='/../assets/start18.png')"
+                 textAlign="center"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 click="util.startButton();"/>
+
+        <mx:LinkButton id="stopButton"
+                 height="25"
+                 label="Stop"
+                 labelPlacement="right"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'stopButton.toolTip')}"
+                 icon="@Embed(source='/../assets/stop18.png')"
+                 textAlign="center"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 click="util.stopButton();"/>
+
+        <mx:LinkButton id="refreshButton"
+                 height="25"
+                 label="Refresh"
+                 labelPlacement="right"
+                 icon="@Embed(source='/../assets/refresh20.png')"
+                 textAlign="center"
+                 click="util.refresh();"
+                 showEffect="{fadeInEffect}"
+                 hideEffect="{fadeOutEffect}"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'refreshButton.toolTip')}"/>
+
+        <mx:Spacer id="toolBarSpacer"
+               width="100%"/>
+        <mx:LinkButton id="helpButton"
+                 height="25"
+                 label="{resourceManager.getString('probemanagerResources', 'helpButton.label')}"
+                 labelPlacement="right"
+                 icon="@Embed(source='/../assets/help18.png')"
+                 textAlign="center"
+                 toolTip="{resourceManager.getString('probemanagerResources', 'helpButton.toolTip')}"
+                 click="{util.showHelp();}"
+                 />
+      </mx:HBox>
+
+    </mx:HBox>
+
+  </mx:VBox>
+
+  <mx:VDividedBox id="mainbox"
+          width="100%"
+          height="100%">
+
+    <mx:Panel id="probelist"
+          title="{resourceManager.getString('probemanagerResources', 'probesPanel.title')}"
+          width="100%"
+          height="40%">
+      <mx:DataGrid id="probeGrid"
+             width="100%"
+             height="100%"
+             verticalScrollPolicy="on"
+             horizontalScrollPolicy="off"
+             change="{util.changeProbeGrid()}"
+             dataProvider="{model.probes}"
+             allowMultipleSelection="true">
+        <mx:columns>
+          <mx:DataGridColumn dataField="probeId"
+                     headerText="{resourceManager.getString('probemanagerResources', 'probesPanel.idHeader.text')}"
+                     fontWeight="bold"
+                     width="35"/>
+          <mx:DataGridColumn dataField="fullcmd"
+                     headerText="{resourceManager.getString('probemanagerResources', 'probesPanel.commandHeader.text')}"
+                     width="100"/>
+          <mx:DataGridColumn dataField="filter"
+                     headerText="{resourceManager.getString('probemanagerResources', 'probesPanel.filterHeader.text')}"
+                     width="320"
+                     showDataTips="true"
+                     dataTipField="filter"/>
+          <mx:DataGridColumn dataField="args"
+                     headerText="{resourceManager.getString('probemanagerResources', 'probesPanel.argsHeader.text')}"
+                     showDataTips="true"
+                     dataTipField="args"/>
+          <mx:DataGridColumn dataField="targetId"
+                     headerText="{resourceManager.getString('probemanagerResources', 'probesPanel.targetsHeader.text')}"
+                     width="140"
+                     showDataTips="true"
+                     dataTipField="targetId"/>
+          <mx:DataGridColumn dataField="outputId"
+                     headerText="{resourceManager.getString('probemanagerResources', 'probesPanel.outputsHeader.text')}"
+                     width="150"
+                     showDataTips="true"
+                     dataTipField="outputId"/>
+          <mx:DataGridColumn dataField="state"
+                     headerText="{resourceManager.getString('probemanagerResources', 'probesPanel.statusHeader.text')}"
+                     width="50"
+                     resizable="false"
+                     itemRenderer="org.ow2.jasmine.monitoring.eos.probemanager.view.StatusRenderer"/>
+        </mx:columns>
+      </mx:DataGrid>
+
+    </mx:Panel>
+
+    <mx:HDividedBox width="100%"
+            height="60%">
+      <mx:Panel id="curProbe"
+            title="{resourceManager.getString('probemanagerResources', 'probePanel.title')}"
+            width="43%"
+            height="100%">
+        <mx:VBox id="curProbeVBox"
+             width="100%">
+          <mx:Form width="100%"
+               height="100%">
+            <mx:FormItem label="{resourceManager.getString('probemanagerResources', 'probePanel.commandItem.label')}">
+              <mx:ComboBox id="formfullcmd"
+                     rowCount="11"
+                     change="{util.probeIsModified();}"
+                     selectedItem="{probeGrid.selectedItem.fullcmd}"
+                     dataProvider="{util.commandNames}"/>
+            </mx:FormItem>
+            <mx:FormItem id="formitemFilter" label="{resourceManager.getString('probemanagerResources', 'probePanel.filterItem.label')}">
+              <mx:HBox width="100%">
+                <mx:TextInput id="formfilter"
+                        minWidth="260"
+                        change="{util.probeIsModified();}"
+                        text="{probeGrid.selectedItem.filter}"/>
+                <mx:LinkButton id="mbeansButton"
+                         toolTip="{resourceManager.getString('probemanagerResources', 'probePanel.checkMBeansButton.toolTip')}"
+                         icon="@Embed(source='/../assets/loupe18.png')"
+                         click="util.checkFilterButton();"/>
+                <mx:Image id="mbeansHelpImage"
+                      toolTip="{resourceManager.getString('probemanagerResources', 'probePanel.filterHelp.toolTip')}"
+                      source="@Embed(source='/../assets/help18.png')"/>
+              </mx:HBox>
+            </mx:FormItem>
+            <mx:FormItem id="attributesFormItem"
+                   label="{resourceManager.getString('probemanagerResources', 'probePanel.attributesItem.label')}"
+                   visible="{probeGrid.selectedItem.cmd == 'stat'}">
+              <mx:HBox width="100%">
+                <mx:TextInput id="formargs"
+                        minWidth="300"
+                        change="{util.probeIsModified();}"
+                        text="{probeGrid.selectedItem.args}"/>
+                <mx:Image id="attributesHelpImage"
+                      toolTip="{resourceManager.getString('probemanagerResources', 'probePanel.attributesHelp.toolTip')}"
+                      source="@Embed(source='/../assets/help18.png')"/>
+              </mx:HBox>
+            </mx:FormItem>
+            <mx:FormItem label="{resourceManager.getString('probemanagerResources', 'probePanel.periodItem.label')}">
+              <mx:HBox>
+                <mx:NumericStepper id="formperiod"
+                           minimum="1"
+                           maximum="3600"
+                           change="{util.probeIsModified();}"
+                           value="{probeGrid.selectedItem.period}"/>
+                <mx:Label text="{resourceManager.getString('probemanagerResources', 'probePanel.periodItem.text')}" />
+                <mx:Image id="periodHelpImage"
+                      toolTip="{resourceManager.getString('probemanagerResources', 'probePanel.periodHelp.toolTip')}"
+                      source="@Embed(source='/../assets/help18.png')"/>
+              </mx:HBox>
+            </mx:FormItem>
+            <mx:FormItem label="{resourceManager.getString('probemanagerResources', 'probePanel.refreshPeriodItem.label')}">
+              <mx:HBox>
+                <mx:NumericStepper id="formrefreshperiod"
+                           minimum="10"
+                           maximum="3600"
+                           change="{util.probeIsModified();}"
+                           value="{probeGrid.selectedItem.refreshPeriod}"/>
+                <mx:Label text="{resourceManager.getString('probemanagerResources', 'probePanel.refreshPeriodItem.text')}" />
+                <mx:Image id="refreshHelpImage"
+                      toolTip="{resourceManager.getString('probemanagerResources', 'probePanel.refreshPeriodHelp.toolTip')}"
+                      source="@Embed(source='/../assets/help18.png')"/>
+              </mx:HBox>
+            </mx:FormItem>
+          </mx:Form>
+        </mx:VBox>
+      </mx:Panel>
+
+      <mx:VDividedBox width="57%"
+              height="100%">
+        <mx:Panel id="curTarget"
+              title="{resourceManager.getString('probemanagerResources', 'targetsPanel.title')}"
+              width="100%"
+              height="50%">
+          <mx:DataGrid id="targetGrid"
+                 width="100%"
+                 height="100%"
+                 verticalScrollPolicy="on"
+                 horizontalScrollPolicy="off"
+                 allowMultipleSelection="true"
+                 useRollOver="false"
+                 itemClick="util.targetClickEvent(event);"
+                 selectedItems="{(probeGrid.selectedItem as Probe).targets}"
+                 dataProvider="{model.targets}">
+            <mx:columns>
+              <mx:DataGridColumn dataField="name"
+                         headerText="{resourceManager.getString('probemanagerResources', 'targetPanel.nameHeader.text')}"
+                         width="100"
+                         fontWeight="bold"/>
+              <mx:DataGridColumn dataField="url"
+                         headerText="{resourceManager.getString('probemanagerResources', 'targetPanel.urlHeader.text')}"
+                         showDataTips="true"
+                         dataTipField="url"/>
+              <mx:DataGridColumn dataField="state"
+                         headerText="status"
+                         width="50"
+                         itemRenderer="org.ow2.jasmine.monitoring.eos.probemanager.view.TargetStatusRenderer"/>
+              <mx:DataGridColumn
+                         editable="false"
+                         width="50"
+                        itemRenderer="org.ow2.jasmine.monitoring.eos.probemanager.view.TargetActionRenderer"/>
+              <mx:DataGridColumn
+                         editable="false"
+                         resizable="false"
+                         width="50"
+                         itemRenderer="org.ow2.jasmine.monitoring.eos.probemanager.view.TargetMbeansRenderer"/>
+            </mx:columns>
+          </mx:DataGrid>
+        </mx:Panel>
+        <mx:Panel id="curOutput"
+              title="{resourceManager.getString('probemanagerResources', 'outputsPanel.title')}"
+              width="100%"
+              height="50%">
+          <mx:DataGrid id="outputGrid"
+                 width="100%"
+                 height="100%"
+                 verticalScrollPolicy="on"
+                 allowMultipleSelection="true"
+                 useRollOver="false"
+                 itemClick="util.outputClickEvent(event);"
+                 selectedItems="{(probeGrid.selectedItem as Probe).outputs}"
+                 dataProvider="{model.outputs}">
+            <mx:columns>
+              <mx:DataGridColumn dataField="name"
+                         headerText="{resourceManager.getString('probemanagerResources', 'outputsPanel.nameHeader.text')}"
+                         fontWeight="bold"/>
+              <mx:DataGridColumn headerText="{resourceManager.getString('probemanagerResources', 'outputsPanel.destinationHeader.text')}"
+                         dataField="dest"
+                         itemRenderer="org.ow2.jasmine.monitoring.eos.probemanager.view.DestRenderer"
+                         textAlign="center"/>
+              <mx:DataGridColumn dataField="path"
+                         headerText="{resourceManager.getString('probemanagerResources', 'outputsPanel.pathHeader.text')}"
+                         showDataTips="true"
+                         dataTipField="path"/>
+              <mx:DataGridColumn dataField ="actions"
+                         headerText="{resourceManager.getString('probemanagerResources', 'outputsPanel.actionsHeader.text')}"
+                         width="50"
+                         resizable="false"
+                         itemRenderer="org.ow2.jasmine.monitoring.eos.probemanager.view.OutputActionRenderer"/>
+            </mx:columns>
+          </mx:DataGrid>
+        </mx:Panel>
+      </mx:VDividedBox>
+    </mx:HDividedBox>
+
+  </mx:VDividedBox>
+
+  <mx:states>
+
+    <mx:State name="initial"
+          enterState="util.enterInitialState()">
+    </mx:State>
+
+    <mx:State name="stoppedprobe"
+          enterState="util.enterStoppedState()">
+      <mx:SetProperty target="{curProbe}" name="title" value="Probe #{probeGrid.selectedItem.probeId}"/>
+      <mx:SetProperty target="{curOutput}" name="title" value="Probe #{probeGrid.selectedItem.probeId} - Outputs (selected elements)"/>
+      <mx:SetProperty target="{curTarget}" name="title" value="Probe #{probeGrid.selectedItem.probeId} - Targets (selected elements)"/>
+    </mx:State>
+
+    <mx:State name="failedprobe"
+          enterState="util.enterFailedState()">
+      <mx:SetProperty target="{curProbe}" name="title" value="Probe #{probeGrid.selectedItem.probeId} (failed to start)"/>
+      <mx:SetProperty target="{curOutput}" name="title" value="Probe #{probeGrid.selectedItem.probeId} - Outputs (selected elements)"/>
+      <mx:SetProperty target="{curTarget}" name="title" value="Probe #{probeGrid.selectedItem.probeId} - Targets (selected elements)"/>
+      <mx:AddChild relativeTo="{this.curProbe}">
+        <mx:HBox width="100%"
+             paddingLeft="10"
+             paddingRight="10"
+             paddingBottom="10"
+             paddingTop="10">
+          <mx:HBox width="100%"
+               borderThickness="1"
+               borderColor="#ff0000"
+               borderStyle="solid"
+               cornerRadius="5"
+               paddingLeft="5"
+               paddingRight="5"
+               paddingBottom="5"
+               paddingTop="5">
+            <mx:Text width="100%"
+                 fontWeight="bold"
+                 text="{probeGrid.selectedItem.error}"/>
+          </mx:HBox>
+        </mx:HBox>
+      </mx:AddChild>
+    </mx:State>
+
+    <mx:State name="runningprobe"
+          enterState="util.enterRunningState()">
+      <mx:SetProperty target="{curProbe}" name="title" value="Probe #{probeGrid.selectedItem.probeId} (running) : period = {probeGrid.selectedItem.period} s , refresh = {probeGrid.selectedItem.refreshPeriod} s"/>
+      <mx:SetProperty target="{curOutput}" name="title" value="Probe #{probeGrid.selectedItem.probeId} - Outputs (selected elements)"/>
+      <mx:SetProperty target="{outputGrid}" name="selectable" value="false"/>
+      <mx:SetProperty target="{curTarget}" name="title" value="Probe #{probeGrid.selectedItem.probeId} - Targets (selected elements)"/>
+      <mx:SetProperty target="{targetGrid}" name="selectable" value="false"/>
+      <mx:SetProperty target="{curProbeVBox}" name="visible" value="false"/>
+      <mx:SetProperty target="{curProbeVBox}" name="height" value="0"/>
+      <mx:AddChild relativeTo="{this.curProbe}">
+        <mx:DataGrid id="resultGrid"
+               width="100%"
+               height="100%"
+               verticalScrollPolicy="on"
+               useRollOver="false"
+               dataProvider="{model.lastResults}">
+          <mx:columns>
+            <mx:DataGridColumn dataField="time"
+                       width="77"/>
+            <mx:DataGridColumn dataField="target"
+                       id="targetcolumn"
+                       width="120"
+                       visible="false"/>
+            <mx:DataGridColumn dataField="mbean"
+                       id="beancolumn"
+                       headerText="mbean"
+                       visible="false"/>
+            <mx:DataGridColumn dataField="attrname"
+                       headerText="attribute"/>
+            <mx:DataGridColumn dataField="attrvalue"
+                       headerText="value"
+                       width="100"/>
+          </mx:columns>
+        </mx:DataGrid>
+      </mx:AddChild>
+    </mx:State>
+
+    <!-- When something has been modified, display a bar -->
+    <mx:State name="applyChanges">
+      <mx:AddChild relativeTo="{probelist}" position="after">
+        <mx:HBox id="applyChangesContainer"
+             width="100%"
+             minHeight="40"
+             maxHeight="40"
+             horizontalAlign="center"
+             verticalAlign="middle"
+             paddingBottom="4"
+             paddingLeft="5"
+             paddingRight="5"
+             paddingTop="4">
+          <mx:Text text="{resourceManager.getString('probemanagerResources', 'changeProbe.text')}"
+               selectable="false"
+               fontWeight="bold"/>
+          <mx:Button id="cancelChangesButton"
+                 icon="@Embed(source='/../assets/cancel24.png')"
+                 labelPlacement="right"
+                 label="{resourceManager.getString('probemanagerResources', 'changeProbe.cancelLabel')}"
+                 click="util.cancelChanges();"/>
+          <mx:Button id="applyChangesButton"
+                 icon="@Embed(source='/../assets/apply24.png')"
+                 labelPlacement="right"
+                 label="{resourceManager.getString('probemanagerResources', 'changeProbe.applyLabel')}"
+                 emphasized="true"
+                 click="util.applyChanges();"/>
+        </mx:HBox>
+      </mx:AddChild>
+    </mx:State>
+
+    <mx:State name="multiSelection">
+      <mx:SetProperty target="{formfullcmd}" name="enabled" value="false"/>
+      <mx:SetProperty target="{formfilter}" name="text" value=""/>
+      <mx:SetProperty target="{formfilter}" name="enabled" value="false"/>
+      <mx:SetProperty target="{attributesFormItem}" name="visible" value="true"/>
+      <mx:SetProperty target="{formargs}" name="text" value=""/>
+      <mx:SetProperty target="{formargs}" name="enabled" value="false"/>
+      <mx:SetProperty target="{formperiod}" name="value" value=""/>
+      <mx:SetProperty target="{formperiod}" name="enabled" value="false"/>
+      <mx:SetProperty target="{formrefreshperiod}" name="value" value=""/>
+      <mx:SetProperty target="{formrefreshperiod}" name="enabled" value="false"/>
+      <mx:SetProperty target="{targetGrid}" name="enabled" value="false"/>
+      <mx:SetProperty target="{targetGrid}" name="selectedIndex" value="-1"/>
+      <mx:SetProperty target="{outputGrid}" name="enabled" value="false"/>
+      <mx:SetProperty target="{outputGrid}" name="selectedIndex" value="-1"/>
+    </mx:State>
+
+  </mx:states>
+
+  <!-- Effects -->
+  <mx:Fade id="fadeInEffect"
+       duration="300"
+       alphaFrom="0.0"
+       alphaTo="1.0"/>
+  <mx:Fade id="fadeOutEffect"
+       duration="200"
+       alphaFrom="1.0"
+       alphaTo="0.0"/>
+
+</mx:VBox>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - JASMINe
+     - Copyright (C) 2010 Bull S.A.S.
+     - Contact: jasmine@ow2.org
+     -
+     - This library is free software; you can redistribute it and/or
+     - modify it under the terms of the GNU Lesser General Public
+     - License as published by the Free Software Foundation; either
+     - version 2.1 of the License, or any later version.
+     -
+     - This library is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     - Lesser General Public License for more details.
+     -
+     - You should have received a copy of the GNU Lesser General Public
+     - License along with this library; if not, write to the Free Software
+     - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+     - USA
+     -
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - $Id$
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+<HelpWindow xmlns="org.ow2.jasmine.monitoring.eos.common.controls.*"
+            xmlns:mx="http://www.adobe.com/2006/mxml"
+            title="{resourceManager.getString('probemanagerResources', 'windowHelp.title')}">
+
+  <mx:Script>
+    <![CDATA[
+      import mx.resources.ResourceManager;
+
+      private function getProbemanagerHelpText():String {
+        return ResourceManager.getInstance().getString('probemanagerResources', 'help.main.message');
+      }
+
+      private function getProbemanagerCreateText():String {
+        return ResourceManager.getInstance().getString('probemanagerResources', 'help.create.message');
+      }
+
+      private function getProbemanagerModifyText():String {
+        return ResourceManager.getInstance().getString('probemanagerResources', 'help.modify.message');
+      }
+
+      private function getProbemanagerStartText():String {
+        return ResourceManager.getInstance().getString('probemanagerResources', 'help.start.message');
+      }
+    ]]>
+  </mx:Script>
+
+    <!-- The pages -->
+    <pages>
+        <mx:VBox label="{resourceManager.getString('probemanagerResources', 'help.boxEditor.label')}"
+                 width="100%"
+                 height="100%">
+            <mx:Text width="100%"
+                     selectable="false">
+                <mx:htmlText>
+                    {getProbemanagerHelpText()}
+                </mx:htmlText>
+            </mx:Text>
+        </mx:VBox>
+        <mx:VBox label="{resourceManager.getString('probemanagerResources', 'help.boxCreate.label')}"
+                 width="100%"
+                 height="100%">
+            <mx:Text width="100%"
+                     selectable="false">
+                <mx:htmlText>
+                    {getProbemanagerCreateText()}
+                </mx:htmlText>
+            </mx:Text>
+        </mx:VBox>
+        <mx:VBox label="{resourceManager.getString('probemanagerResources', 'help.boxModify.label')}"
+                 width="100%"
+                 height="100%">
+            <mx:Text width="100%"
+                     selectable="false">
+                <mx:htmlText>
+                    {getProbemanagerModifyText()}
+                </mx:htmlText>
+            </mx:Text>
+        </mx:VBox>
+        <mx:VBox label="{resourceManager.getString('probemanagerResources', 'help.boxStart.label')}"
+                 width="100%"
+                 height="100%">
+            <mx:Text width="100%"
+                     selectable="false">
+                <mx:htmlText>
+                    {getProbemanagerStartText()}
+                </mx:htmlText>
+            </mx:Text>
+        </mx:VBox>
+
+    </pages>
+
+</HelpWindow>

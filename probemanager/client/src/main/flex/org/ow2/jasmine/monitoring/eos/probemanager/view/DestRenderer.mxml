@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - JASMINe
+     - Copyright (C) 2010-2011 Bull S.A.S.
+     - Contact: jasmine@ow2.org
+     -
+     - This library is free software; you can redistribute it and/or
+     - modify it under the terms of the GNU Lesser General Public
+     - License as published by the Free Software Foundation; either
+     - version 2.1 of the License, or any later version.
+     -
+     - This library is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     - Lesser General Public License for more details.
+     -
+     - You should have received a copy of the GNU Lesser General Public
+     - License along with this library; if not, write to the Free Software
+     - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+     - USA
+     -
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - $Id$
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         implements="mx.controls.listClasses.IListItemRenderer"
+         width="100%"
+         horizontalAlign="left"
+         verticalScrollPolicy="off"
+         horizontalScrollPolicy="off">
+
+    <mx:Script>
+    <![CDATA[
+        import org.ow2.jasmine.monitoring.eos.probemanager.vo.ProbeOutput;
+
+        [Bindable]
+        private var displayedLabel:String;
+
+        override public function set data(value:Object):void {
+            // Assign the value
+            super.data = value;
+
+            // Update the displayed label
+            if (value != null) {
+                switch (value.dest) {
+                    case ProbeOutput.OUTPUT_CONSOLE:
+                        displayedLabel = " console";
+                        break;
+                    case ProbeOutput.OUTPUT_JASMINE:
+                        displayedLabel = " JASMINe";
+                        break;
+                    case ProbeOutput.OUTPUT_LOGFILE:
+                        displayedLabel = " log file";
+                        break;
+                }
+            }
+        }
+        ]]>
+    </mx:Script>
+
+    <mx:Text text="{displayedLabel}"
+             selectable="false"/>
+
+</mx:HBox>

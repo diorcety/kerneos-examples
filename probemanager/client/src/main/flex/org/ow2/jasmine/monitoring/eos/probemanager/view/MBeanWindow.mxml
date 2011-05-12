@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - JASMINe
+     - Copyright (C) 2010 Bull S.A.S.
+     - Contact: jasmine@ow2.org
+     -
+     - This library is free software; you can redistribute it and/or
+     - modify it under the terms of the GNU Lesser General Public
+     - License as published by the Free Software Foundation; either
+     - version 2.1 of the License, or any later version.
+     -
+     - This library is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     - Lesser General Public License for more details.
+     -
+     - You should have received a copy of the GNU Lesser General Public
+     - License along with this library; if not, write to the Free Software
+     - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+     - USA
+     -
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - $Id$
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+<mx:TitleWindow title="MBeans matching the filter"
+                xmlns:mx="http://www.adobe.com/2006/mxml"
+                showCloseButton="true"
+                styleName="probes"
+                borderAlpha="1"
+                width="1000"
+                height="100%"
+                close="{util.closeMBeanWindow()}">
+    <mx:Script>
+        <![CDATA[
+        import mx.collections.ArrayCollection;
+        import mx.controls.Alert;
+
+        [Bindable]
+        protected var util:ProbeManagerUtil;
+
+        /**
+         * Init the module
+         */
+        public function init(u:ProbeManagerUtil):void {
+            this.util = u;
+        }
+        ]]>
+    </mx:Script>
+
+    <mx:Binding destination="util.filter"
+                source="formfilter.text"/>
+
+    <mx:VBox width="100%"
+             height="100%">
+        <mx:HBox width="100%"
+                 height="40"
+                 verticalScrollPolicy="off">
+            <mx:Form width="100%"
+                     height="100%"
+                     paddingTop="4"
+                     paddingBottom="0">
+                <mx:FormItem label="Filter">
+                    <mx:TextInput id="formfilter"
+                                  minWidth="800"
+                                  width="100%"
+                                  height="100%"
+                                  text="{util.filter}"/>
+                </mx:FormItem>
+            </mx:Form>
+            <mx:LinkButton id="refreshButton"
+                           height="100%"
+                           labelPlacement="bottom"
+                           toolTip="refresh mbean list"
+                           icon="@Embed(source='/../assets/refresh20.png')"
+                           click="util.refreshMBeans()"/>
+            <mx:LinkButton id="applyButton"
+                           height="100%"
+                           labelPlacement="bottom"
+                           toolTip="apply this filter to the probe"
+                           icon="@Embed(source='/../assets/edit-redo20.png')"
+                           click="{util.applyFilter()}"/>
+        </mx:HBox>
+        <mx:DataGrid id="mbeanGrid"
+                     width="100%"
+                     height="100%"
+                     verticalScrollPolicy="on"
+                     horizontalScrollPolicy="on"
+                     dataProvider="{util.mbeanlist}">
+            <mx:columns>
+                <mx:DataGridColumn dataField="data"
+                                   headerText="mbean name"/>
+            </mx:columns>
+        </mx:DataGrid>
+
+    </mx:VBox>
+
+</mx:TitleWindow>

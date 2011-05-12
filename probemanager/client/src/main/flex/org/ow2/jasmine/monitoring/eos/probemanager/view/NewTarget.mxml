@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - JASMINe
+     - Copyright (C) 2010 Bull S.A.S.
+     - Contact: jasmine@ow2.org
+     -
+     - This library is free software; you can redistribute it and/or
+     - modify it under the terms of the GNU Lesser General Public
+     - License as published by the Free Software Foundation; either
+     - version 2.1 of the License, or any later version.
+     -
+     - This library is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     - Lesser General Public License for more details.
+     -
+     - You should have received a copy of the GNU Lesser General Public
+     - License along with this library; if not, write to the Free Software
+     - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+     - USA
+     -
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - $Id$
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+
+<mx:TitleWindow title="{resourceManager.getString('probemanagerResources', 'manageTarget.window.title')}"
+                xmlns:mx="http://www.adobe.com/2006/mxml"
+                showCloseButton="true"
+                styleName="probes"
+                borderAlpha="1"
+                close="{util.closeTargetWindow()}">
+    <mx:Script>
+        <![CDATA[
+        import mx.collections.ArrayCollection;
+        import mx.controls.Alert;
+        import mx.events.ValidationResultEvent;
+        import mx.resources.ResourceManager;
+        import mx.validators.Validator;
+
+        import org.ow2.jasmine.monitoring.eos.probemanager.vo.*;
+
+        [Bindable]
+        protected var target:ProbeTarget;
+
+        [Bindable]
+        protected var util:ProbeManagerUtil;
+
+        [Bindable]
+        protected var create:Boolean;
+
+        [Bindable]
+        private var validators:ArrayCollection = new ArrayCollection();
+
+        /**
+         * Init the module
+         * @param u ProbeManagerUtil
+         * @param t The ProbeTarget model
+         * @param c True if creating a new target
+         */
+        public function init(u:ProbeManagerUtil, t:ProbeTarget, c:Boolean):void {
+            this.util = u;
+            this.target = t;
+            this.create = c;
+            if (create) {
+                // Clear the name
+                targetId.text = "";
+                // Add a reset button
+                var reset:Button = new Button();
+                reset.label = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.resetButton');
+                reset.addEventListener(MouseEvent.CLICK, resetForm);
+                buttonList.addChildAt(reset, 0);
+                // Add a create Button
+                var create:Button = new Button();
+                create.label = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.createButton');
+                create.addEventListener(MouseEvent.CLICK, createTarget);
+                buttonList.addChildAt(create, 0);
+            }
+            else {
+                // Add a delete button
+                var del:Button = new Button();
+                del.label = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.deleteButton');
+                del.addEventListener(MouseEvent.CLICK, deleteTarget);
+                buttonList.addChildAt(del, 0);
+                // Add a modify Button
+                var modify:Button = new Button();
+                modify.label = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.applyButton');
+                modify.addEventListener(MouseEvent.CLICK, modifyTarget);
+                buttonList.addChildAt(modify, 0);
+            }
+            validators.addItem(id_validator);
+            validators.addItem(url_validator);
+        }
+
+        private function deleteTarget(evt:Event):void {
+            util.deleteTarget();
+        }
+
+        private function createTarget(evt:Event):void {
+            if (validateForm()) {
+                // No error returned: validation ok
+                util.addTarget();
+            }
+        }
+
+        private function modifyTarget(evt:Event):void {
+            if (validateForm()) {
+                // No error returned: validation ok
+                util.modifyTarget();
+            }
+        }
+
+        /**
+         * Validate the Form
+         * @return true if OK
+         */
+        private function validateForm():Boolean {
+            var mess:Array = [];
+            if (targetId != null) {
+                var message:String = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.error.targetInfo') + " = " + targetId.text;
+                mess.push(message);
+             }
+            if (url != null) {
+                var message:String = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.urlForm.label') + " = " + url.text;
+                mess.push(message);
+            }
+            var vreList:Array = Validator.validateAll(validators.source);
+            if (vreList.length > 0) {
+                var vre:ValidationResultEvent;
+                for each (vre in vreList) {
+                    var errField:String = FormItem(vre.currentTarget.source.parent).label;
+                    var errMessage:String = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.error.message') + errField + " : " + vre.message;
+                    mess.push(errMessage);
+                }
+                var invalidPanelTitle = ResourceManager.getInstance().getString('probemanagerResources', 'manageTarget.error.title');
+                Alert.show(mess.join("\n\n"), invalidPanelTitle, Alert.OK);
+                return false;
+            }
+            return true;
+        }
+
+        /**
+         * reset the Form (RESET Button)
+         */
+        private function resetForm(evt:Event):void {
+            targetId.text = "";
+            url.text = "";
+        }
+        ]]>
+    </mx:Script>
+
+    <mx:StringValidator id="id_validator"
+                        source="{targetId}"
+                        property="text"
+                        minLength="1"/>
+    <mx:StringValidator id="url_validator"
+                        source="{url}"
+                        property="text"
+                        minLength="6"/>
+    <mx:Form>
+        <mx:FormHeading label="{resourceManager.getString('probemanagerResources', 'manageTarget.form.label')}"/>
+        <mx:FormItem label="{resourceManager.getString('probemanagerResources', 'manageTarget.idForm.label')}"
+                     required="true">
+            <mx:TextInput id="targetId"
+                          text="{target.name}"/>
+        </mx:FormItem>
+        <mx:FormItem label="{resourceManager.getString('probemanagerResources', 'manageTarget.urlForm.label')}"
+                     required="true">
+            <mx:TextInput id="url"
+                          text="{target.url}"/>
+        </mx:FormItem>
+        <mx:FormItem label="{resourceManager.getString('probemanagerResources', 'manageTarget.userForm.label')}"
+                     required="false">
+            <mx:TextInput id="user"
+                          text="{target.user}"/>
+        </mx:FormItem>
+        <mx:FormItem label="{resourceManager.getString('probemanagerResources', 'manageTarget.passwordForm.label')}"
+                     required="false">
+            <mx:TextInput id="password"
+                          text="{target.password}"
+                          displayAsPassword="true"/>
+        </mx:FormItem>
+    </mx:Form>
+    <mx:HBox id="buttonList">
+        <mx:Button id="bcancel"
+                   label="{resourceManager.getString('probemanagerResources', 'manageTarget.cancelLabel')}"
+                   click="{util.closeTargetWindow()}"/>
+    </mx:HBox>
+</mx:TitleWindow>

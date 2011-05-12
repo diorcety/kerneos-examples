@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - JASMINe
+     - Copyright (C) 2010 Bull S.A.S.
+     - Contact: jasmine@ow2.org
+     -
+     - This library is free software; you can redistribute it and/or
+     - modify it under the terms of the GNU Lesser General Public
+     - License as published by the Free Software Foundation; either
+     - version 2.1 of the License, or any later version.
+     -
+     - This library is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     - Lesser General Public License for more details.
+     -
+     - You should have received a copy of the GNU Lesser General Public
+     - License along with this library; if not, write to the Free Software
+     - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+     - USA
+     -
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - $Id$
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         implements="mx.controls.listClasses.IListItemRenderer"
+         width="100%"
+         horizontalAlign="center"
+         verticalScrollPolicy="off"
+         horizontalScrollPolicy="off">
+
+    <mx:Script>
+        <![CDATA[
+        import org.ow2.jasmine.monitoring.eos.probemanager.model.*;
+        import org.ow2.jasmine.monitoring.eos.probemanager.vo.ProbeTarget;
+
+        private var model:ProbeManagerModelLocator = ProbeManagerModelLocator.getInstance();
+
+        private function onClick():void {
+
+        }
+        ]]>
+    </mx:Script>
+
+    <mx:LinkButton id="editButton"
+                   toolTip="{resourceManager.getString('probemanagerResources', 'targetPanel.editButton.toolTip')}"
+                   icon="@Embed(source='/../assets/edit18.png')"
+                   click="onClick()"/>
+
+</mx:HBox>

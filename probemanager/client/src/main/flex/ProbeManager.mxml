@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - JASMINe
+     - Copyright (C) 2010 Bull S.A.S.
+     - Contact: jasmine@ow2.org
+     -
+     - This library is free software; you can redistribute it and/or
+     - modify it under the terms of the GNU Lesser General Public
+     - License as published by the Free Software Foundation; either
+     - version 2.1 of the License, or any later version.
+     -
+     - This library is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     - Lesser General Public License for more details.
+     -
+     - You should have received a copy of the GNU Lesser General Public
+     - License along with this library; if not, write to the Free Software
+     - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+     - USA
+     -
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     - $Id$
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-->
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml"
+           xmlns:control="org.ow2.jasmine.monitoring.eos.probemanager.control.*"
+           xmlns:view="org.ow2.jasmine.monitoring.eos.probemanager.view.*"
+           width="100%"
+           height="100%"
+           implements = "org.ow2.jasmine.kerneos.core.api.KerneosModule"
+           initialize="openModule()" >
+
+  <mx:Script>
+    <![CDATA[
+      import org.ow2.jasmine.kerneos.common.event.KerneosNotificationEvent;
+      import org.ow2.jasmine.monitoring.eos.probemanager.vo.Probe;
+      import org.ow2.jasmine.monitoring.eos.probemanager.vo.ProbeOutput;
+      import org.ow2.jasmine.monitoring.eos.probemanager.vo.ProbeTarget;
+
+      var _servicesClasses: Dictionary;
+      /**
+       * When the module is closed, cut off all client-server communications
+       */
+      public function closeModule() : void
+      {
+          ////////////////////////////////////////////////////////////////
+          //                                                            //
+          //             Action to do when the module is closed         //
+          //                                                            //
+          ////////////////////////////////////////////////////////////////
+          controller.removeCommands();
+          controller = null;
+      }
+
+      public function servicesClasses(): Dictionary {
+        if(_servicesClasses == null)
+          {
+            _servicesClasses = new Dictionary();
+            _servicesClasses["probeManagerService"]= [ProbeTarget, Probe, ProbeOutput];
+          }
+          return _servicesClasses;
+      }
+
+      public function canBeClosedWithoutPrompt() : Boolean {
+          return false;
+      }
+
+      public function openModule(event:Event=null):void {
+          dispatchEvent(new KerneosNotificationEvent(KerneosNotificationEvent.KERNEOS_NOTIFICATION,
+                        "ProbeManager module started",
+                        KerneosNotificationEvent.DEBUG));
+     }
+    ]]>
+  </mx:Script>
+
+  <!-- Stylesheet -->
+  <mx:Style source="/../assets/styles.css"/>
+
+  <control:Controller id="controller"/>
+
+  <view:ProbeManagerMain/>
+
+  <mx:Metadata>
+    [ResourceBundle("probemanagerResources")]
+  </mx:Metadata>
+
+</mx:Module>
