@@ -23,7 +23,7 @@
  * --------------------------------------------------------------------------
  */
 
-package org.ow2.jasmine.kerneos.examples.example2;
+package org.ow2.kerneos.examples.example1;
 
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Instantiate;
@@ -31,45 +31,46 @@ import org.apache.felix.ipojo.annotations.Invalidate;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Validate;
 
-import org.ow2.jasmine.kerneos.service.KerneosService;
-import org.ow2.jasmine.kerneos.service.KerneosSimpleService;
+import org.ow2.kerneos.service.KerneosFactory;
+import org.ow2.kerneos.service.KerneosFactoryService;
+import org.ow2.kerneos.service.KerneosService;
 import org.ow2.util.log.Log;
 import org.ow2.util.log.LogFactory;
 
-/**
- * HelloService
- */
+
 @Component
 @Instantiate
 @Provides
-@KerneosService(destination = "HelloService")
-public class HelloService implements KerneosSimpleService {
+
+@KerneosService(destination = "ObjectService")
+@KerneosFactory(scope = KerneosFactory.SCOPE.SESSION)
+public class Factory implements KerneosFactoryService<MyService> {
     /**
-     * The logger
+     * The logger.
      */
-    private static Log logger = LogFactory.getLog(HelloService.class);
+    private static Log logger = LogFactory.getLog(Factory.class);
 
     /**
-     * Start
+     *
      */
     @Validate
     private void start() {
-        logger.info("Start HelloService");
+        logger.info("Start Factory");
     }
 
     /**
-     * Stop
+     *
      */
     @Invalidate
     private void stop() {
-        logger.info("Stop HelloService");
+        logger.info("Stop Factory");
     }
 
     /**
-     * @param name the name of the user
-     * @return a welcome message
+     *
+     * @return a new instance of MyService
      */
-    public String sayHello(final String name) {
-        return "Hello " + name;
+    public MyService newInstance() {
+        return new MyService();
     }
 }

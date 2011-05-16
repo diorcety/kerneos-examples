@@ -31,14 +31,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.ow2.jasmine.kerneos</groupId>
+    <groupId>org.ow2.kerneos</groupId>
     <artifactId>kerneos-examples-example2</artifactId>
     <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
 
   <name>Kerneos :: Modules :: Examples :: Example2 :: Client</name>
 
-  <groupId>org.ow2.jasmine.kerneos</groupId>
+  <groupId>org.ow2.kerneos</groupId>
   <artifactId>kerneos-examples-example2-client</artifactId>
 
   <packaging>swf</packaging>
@@ -46,7 +46,15 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.ow2.jasmine.kerneos</groupId>
+      <groupId>org.ow2.kerneos</groupId>
+      <artifactId>kerneos-core-client</artifactId>
+      <version>${kerneos.version}</version>
+      <type>xml</type>
+      <classifier>link-report</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ow2.kerneos</groupId>
       <artifactId>cairngorm-kerneos</artifactId>
       <version>${cairngorm.version}</version>
       <type>swc</type>
@@ -63,14 +71,14 @@
     -->
 
     <dependency>
-      <groupId>org.ow2.jasmine.kerneos</groupId>
+      <groupId>org.ow2.kerneos</groupId>
       <artifactId>kerneos-common-client</artifactId>
       <version>${kerneos.version}</version>
       <type>swc</type>
     </dependency>
 
     <dependency>
-      <groupId>org.ow2.jasmine.kerneos</groupId>
+      <groupId>org.ow2.kerneos</groupId>
       <artifactId>kerneos-api</artifactId>
       <version>${kerneos.version}</version>
       <type>swc</type>

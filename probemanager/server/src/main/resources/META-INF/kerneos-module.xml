@@ -24,21 +24,25 @@
   - $Id$
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -->
-<kerneos-module xmlns="org.ow2.jasmine.kerneos:kerneos-module"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="org.ow2.jasmine.kerneos:kerneos-module">
+<swf-module xmlns="org.ow2.kerneos:module"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="org.ow2.kerneos:module">
 
-    <!-- Module settings -->
-      <swf-module>
-        <name>Probe Manager</name>
-        <description>Manage probes running in jasmine monitoring</description>
-        <small-icon>icons/icon16.png</small-icon>
-        <big-icon>icons/icon64.png</big-icon>
-        <file>ProbeManager.swf</file>
-        <services>
-          <service id="probeManagerService" destination="probeManager"/>
-          <service id="asynchProbeManagerService" destination="gravityProbeManager" asynchronous="true"/>
-        </services>
-      </swf-module>
+  <name>Probe Manager</name>
 
-</kerneos-module>
+  <description>Manage probes running in jasmine monitoring</description>
+
+  <small-icon>icons/icon16.png</small-icon>
+
+  <big-icon>icons/icon64.png</big-icon>
+
+  <file>ProbeManager.swf</file>
+
+  <services>
+
+    <service id="probeManagerService" destination="probeManager"/>
+
+    <service id="asynchProbeManagerService" destination="gravityProbeManager" asynchronous="true"/>
+  </services>
+
+</swf-module>

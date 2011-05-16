@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>kerneos-examples</artifactId>
-    <groupId>org.ow2.jasmine.kerneos</groupId>
+    <groupId>org.ow2.kerneos</groupId>
     <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -12,65 +12,21 @@
 
   <artifactId>kerneos-examples-test</artifactId>
   <name>Kerneos :: Modules :: Examples :: Test</name>
+  <packaging>bundle</packaging>
 
   <dependencies>
     <dependency>
-      <groupId>org.ow2.jasmine.kerneos</groupId>
+      <groupId>org.ow2.kerneos</groupId>
       <artifactId>kerneos-core-server</artifactId>
       <version>2.0.0-M1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${project.build.directory}/resources</directory>
-        <targetPath>.</targetPath>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <targetPath>.</targetPath>
-      </resource>
-      <resource>
-        <directory>${project.build.directory}/kerneos</directory>
-        <targetPath>./KERNEOS</targetPath>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/kerneos</directory>
-        <targetPath>./KERNEOS</targetPath>
-      </resource>
-    </resources>
     <plugins>
-
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestFile>${project.build.directory}/resources/META-INF/MANIFEST.MF</manifestFile>
-          </archive>
-        </configuration>
-      </plugin>
-
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
-          <execution>
-            <id>unpack-dependencies</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.ow2.jasmine.kerneos</groupId>
-                  <artifactId>kerneos-core-server</artifactId>
-                  <version>2.0.0-M1-SNAPSHOT</version>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${project.build.directory}/resources</outputDirectory>
-            </configuration>
-          </execution>
           <execution>
             <id>copy-dependencies</id>
             <phase>generate-resources</phase>
@@ -90,6 +46,33 @@
               </artifactItems>
               <outputDirectory>${project.build.directory}/kerneos</outputDirectory>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.3.4</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Kerneos-Application>kerneos-test</Kerneos-Application>
+            <Include-Resource>
+              src/main/resources,
+              KERNEOS=src/main/kerneos,
+              KERNEOS=${project.build.directory}/kerneos
+            </Include-Resource>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-ipojo-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>ipojo-bundle</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

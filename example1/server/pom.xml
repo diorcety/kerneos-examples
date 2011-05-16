@@ -4,14 +4,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.ow2.jasmine.kerneos</groupId>
+    <groupId>org.ow2.kerneos</groupId>
     <artifactId>kerneos-examples-example1</artifactId>
     <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
 
   <name>Kerneos :: Modules :: Examples :: Example1 :: Server</name>
 
-  <groupId>org.ow2.jasmine.kerneos</groupId>
+  <groupId>org.ow2.kerneos</groupId>
   <artifactId>kerneos-examples-example1-server</artifactId>
 
   <packaging>bundle</packaging>
@@ -25,7 +25,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.ow2.jasmine.kerneos</groupId>
+      <groupId>org.ow2.kerneos</groupId>
       <artifactId>kerneos-core-server</artifactId>
       <version>2.0.0-M1-SNAPSHOT</version>
       <scope>provided</scope>
@@ -52,7 +52,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.ow2.jasmine.kerneos</groupId>
+                  <groupId>org.ow2.kerneos</groupId>
                   <artifactId>kerneos-examples-example1-client</artifactId>
                   <version>2.0.0-M1-SNAPSHOT</version>
                   <type>swf</type>

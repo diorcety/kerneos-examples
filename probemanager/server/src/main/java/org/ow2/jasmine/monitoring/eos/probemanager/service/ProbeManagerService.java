@@ -38,8 +38,8 @@ import org.apache.felix.ipojo.annotations.Instantiate;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
 
-import org.ow2.jasmine.kerneos.service.KerneosService;
-import org.ow2.jasmine.kerneos.service.KerneosSimpleService;
+import org.ow2.kerneos.service.KerneosService;
+import org.ow2.kerneos.service.KerneosSimpleService;
 
 import org.ow2.jasmine.monitoring.mbeancmd.api.ConsoleOutput;
 import org.ow2.jasmine.monitoring.mbeancmd.api.EventswitchOutput;

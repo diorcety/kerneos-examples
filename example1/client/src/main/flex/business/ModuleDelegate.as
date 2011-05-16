@@ -23,7 +23,7 @@
 package business {
 import com.adobe.cairngorm.business.ServiceLocator;
 
-import org.ow2.jasmine.kerneos.common.business.AbsDelegateResponder;
+import org.ow2.kerneos.common.business.AbsDelegateResponder;
 
 import vo.MyObject;
 import vo.MySubObject;

@@ -44,7 +44,7 @@ import mx.messaging.messages.AsyncMessage;
 
 import mx.resources.ResourceManager;
 
-import org.ow2.jasmine.kerneos.common.event.KerneosNotificationEvent;
+import org.ow2.kerneos.common.event.KerneosNotificationEvent;
 import org.ow2.jasmine.monitoring.eos.common.events.LoadEvent;
 import org.ow2.jasmine.monitoring.eos.common.events.ServerSideExceptionEvent;
 import org.ow2.jasmine.monitoring.eos.common.view.LoadWindow;

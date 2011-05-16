@@ -27,7 +27,7 @@ import com.adobe.cairngorm.business.ServiceLocator;
 
 import mx.controls.Alert;
 
-import org.ow2.jasmine.kerneos.common.business.AbsDelegateResponder;
+import org.ow2.kerneos.common.business.AbsDelegateResponder;
 import org.ow2.jasmine.monitoring.eos.probemanager.vo.*;
 
 public class MyDelegate extends AbsDelegateResponder {

@@ -24,20 +24,23 @@
   - $Id$
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 -->
-<kerneos-module xmlns="org.ow2.jasmine.kerneos:kerneos-module"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="org.ow2.jasmine.kerneos:kerneos-module">
+<swf-module xmlns="org.ow2.kerneos:module"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="org.ow2.kerneos:module">
 
-    <!-- Module settings -->
-    <swf-module>
-        <name>Object Service</name>
-        <description>This is a example</description>
-        <small-icon>icons/icon16.png</small-icon>
-        <big-icon>icons/icon64.png</big-icon>
-        <file>example1.swf</file>
-        <services>
-            <service id="object_service" destination="ObjectService"/>
-        </services>
-    </swf-module>
+  <name>Object Service</name>
 
-</kerneos-module>
+  <description>This is a example</description>
+
+  <small-icon>icons/icon16.png</small-icon>
+
+  <big-icon>icons/icon64.png</big-icon>
+
+  <file>example1.swf</file>
+
+  <services>
+
+    <service id="object_service" destination="ObjectService"/>
+  </services>
+
+</swf-module>

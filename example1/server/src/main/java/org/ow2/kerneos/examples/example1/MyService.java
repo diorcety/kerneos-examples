@@ -23,28 +23,23 @@
  * --------------------------------------------------------------------------
  */
 
-package org.ow2.jasmine.kerneos.examples.example1;
+package org.ow2.kerneos.examples.example1;
 
 import java.io.Serializable;
 
-public class MyObject implements Serializable {
+public class MyService implements Serializable {
+    private MyObject obj;
 
-    private String field1;
-    private MySubObject field2 = new MySubObject();
+    MyService() {
+        obj = new MyObject();
+        obj.setField1("TEST");
+        obj.getField2().setField1("SUBTEST");
+        obj.getField2().setField2(0);
 
-    public String getField1() {
-        return field1;
     }
 
-    public void setField1(final String field1) {
-        this.field1 = field1;
-    }
-
-    public MySubObject getField2() {
-        return field2;
-    }
-
-    public void setField2(final MySubObject field2) {
-        this.field2 = field2;
+    public MyObject getObject() {
+        obj.getField2().setField2(obj.getField2().getField2() + 1);
+        return obj;
     }
 }

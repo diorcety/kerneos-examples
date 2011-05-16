@@ -23,7 +23,7 @@
 
 package vo {
 
-[RemoteClass(alias="org.ow2.jasmine.kerneos.examples.example1.MySubObject")]
+[RemoteClass(alias="org.ow2.kerneos.examples.example1.MySubObject")]
 [Bindable]
 public class MySubObject {
     public function MySubObject() {

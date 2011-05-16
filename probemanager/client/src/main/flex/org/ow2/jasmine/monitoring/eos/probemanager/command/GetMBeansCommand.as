@@ -33,7 +33,7 @@ import mx.rpc.IResponder;
 import mx.rpc.events.FaultEvent;
 import mx.rpc.events.ResultEvent;
 
-import org.ow2.jasmine.kerneos.common.event.KerneosNotificationEvent;
+import org.ow2.kerneos.common.event.KerneosNotificationEvent;
 import org.ow2.jasmine.monitoring.eos.common.controls.ServerSideException;
 import org.ow2.jasmine.monitoring.eos.common.events.ServerSideExceptionEvent;
 import org.ow2.jasmine.monitoring.eos.probemanager.event.*;

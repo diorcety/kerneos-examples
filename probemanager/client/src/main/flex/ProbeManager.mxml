@@ -29,12 +29,12 @@
            xmlns:view="org.ow2.jasmine.monitoring.eos.probemanager.view.*"
            width="100%"
            height="100%"
-           implements = "org.ow2.jasmine.kerneos.core.api.KerneosModule"
+           implements = "org.ow2.kerneos.core.api.KerneosModule"
            initialize="openModule()" >
 
   <mx:Script>
     <![CDATA[
-      import org.ow2.jasmine.kerneos.common.event.KerneosNotificationEvent;
+      import org.ow2.kerneos.common.event.KerneosNotificationEvent;
       import org.ow2.jasmine.monitoring.eos.probemanager.vo.Probe;
       import org.ow2.jasmine.monitoring.eos.probemanager.vo.ProbeOutput;
       import org.ow2.jasmine.monitoring.eos.probemanager.vo.ProbeTarget;
