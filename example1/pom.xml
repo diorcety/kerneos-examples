@@ -11,7 +11,7 @@
 
   <packaging>pom</packaging>
 
-  <name>Kerneos :: Modules :: Examples :: Example1</name>
+  <name>Kerneos :: Examples :: Example1</name>
 
   <properties>
     <flex.version>4.1.0.16076</flex.version>

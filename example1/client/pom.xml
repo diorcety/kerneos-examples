@@ -36,7 +36,7 @@
     <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
 
-  <name>Kerneos :: Modules :: Examples :: Example1 :: Client</name>
+  <name>Kerneos :: Examples :: Example1 :: Client</name>
 
   <groupId>org.ow2.kerneos</groupId>
   <artifactId>kerneos-examples-example1-client</artifactId>

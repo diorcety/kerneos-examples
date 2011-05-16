@@ -11,7 +11,7 @@
 
 
   <artifactId>kerneos-examples-test</artifactId>
-  <name>Kerneos :: Modules :: Examples :: Test</name>
+  <name>Kerneos :: Examples :: Test</name>
   <packaging>bundle</packaging>
 
   <dependencies>

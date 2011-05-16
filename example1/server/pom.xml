@@ -9,7 +9,7 @@
     <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
 
-  <name>Kerneos :: Modules :: Examples :: Example1 :: Server</name>
+  <name>Kerneos :: Examples :: Example1 :: Server</name>
 
   <groupId>org.ow2.kerneos</groupId>
   <artifactId>kerneos-examples-example1-server</artifactId>
