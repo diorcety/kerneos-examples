@@ -35,7 +35,7 @@
     <application-name>TeSt2</application-name>
 
     <!-- Base URL used -->
-    <application-url>/kerneos2</application-url>
+    <application-url>/test2</application-url>
 
     <!-- The path to the console logo (64x64 image) -->
     <application-logo>icons/icon.png</application-logo>
